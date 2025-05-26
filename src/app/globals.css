@@ -1,26 +1,507 @@
-@import "tailwindcss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --text-purple: #8a2be2;
+  --text-pink: #ff69b4;
+  --text-blue: #1e90ff;
+  --text-teal: #00ced1;
+  --text-green: #32cd32;
+  --text-orange: #ff8c00;
+  --text-red: #ff4500;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --bg: #000000;
+  --highlight-bg: #c6aedb; /* Keep the highlight color as purple */
+  --type-line-opacity: 0.05;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: "Longsile", sans-serif;
+  position: relative;
+}
+
+.background-frame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url("https://assets.codepen.io/7558/web03.webp");
+  background-size: 100% 100%;
+  background-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bottom-gradient {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.background-image {
+  position: fixed;
+  width: calc(100%);
+  height: calc(100vh);
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.background-image.default {
+  background-image: url("https://assets.codepen.io/7558/wave-bg-001.webp");
+  opacity: 1;
+}
+
+.background-image.focus {
+  background-image: url("https://assets.codepen.io/7558/wave-bg-002.webp");
+}
+
+.background-image.presence {
+  background-image: url("https://assets.codepen.io/7558/wave-bg-003.webp");
+}
+
+.background-image.feel {
+  background-image: url("https://assets.codepen.io/7558/wave-bg-004.webp");
+}
+
+.text-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.text-item {
+  position: absolute;
+  /* Remove the color property from here as we'll use classes */
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  opacity: 0.8;
+  white-space: nowrap;
+  font-family: "TheGoodMonolith", monospace;
+  z-index: 0;
+}
+
+.text-item.color-1 {
+  color: var(--text-purple);
+}
+.text-item.color-2 {
+  color: var(--text-pink);
+}
+.text-item.color-3 {
+  color: var(--text-blue);
+}
+.text-item.color-4 {
+  color: var(--text-teal);
+}
+.text-item.color-5 {
+  color: var(--text-green);
+}
+.text-item.color-6 {
+  color: var(--text-orange);
+}
+.text-item.color-7 {
+  color: var(--text-red);
+}
+
+.text-item::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -4px;
+  width: 0;
+  height: calc(100% + 4px);
+  background-color: var(--highlight-bg);
+  z-index: 1;
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.text-item.highlight::after {
+  width: calc(100% + 8px);
+}
+
+.text-item.highlight-reverse::after {
+  width: 0;
+  right: -4px;
+  left: auto;
+}
+
+.main-content {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sliced-container {
+  position: relative;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  transform: translateZ(0);
+}
+
+.text-row {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  z-index: 100;
+}
+
+.text-content,
+.char,
+.char-inner {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.text-content {
+  position: relative;
+  font-size: 10rem;
+  font-weight: normal;
+  text-transform: uppercase;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  color: var(--text);
+  letter-spacing: 0px;
+  transition: letter-spacing 0.5s ease;
+  visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.text-row:hover .text-content {
+  letter-spacing: 5px;
+}
+
+.interactive-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.char {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  max-width: 80px;
+  transition: max-width 0.64s cubic-bezier(0.86, 0, 0.07, 1);
+  margin-right: 0px;
+}
+
+.text-row.active .char::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 80%;
+  background-color: rgba(255, 204, 0, 0.2);
+  transform: none;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+  animation-delay: calc(var(--char-index, 0) * 0.05s);
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.char.narrow-char {
+  max-width: 40px;
+}
+
+.char:last-child::after {
+  display: none;
+}
+
+.char-inner {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transform: translate3d(-20px, 0, 0);
+}
+
+.type {
+  position: fixed;
+  height: 100vmax;
+  width: 100vmax;
+  text-transform: uppercase;
+  display: none;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  margin-top: -50vmax;
+  margin-left: -50vmax;
+  will-change: transform;
+  z-index: 5;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.type-line {
+  white-space: nowrap;
+  font-size: clamp(7rem, 18.75vh, 15rem);
+  line-height: 0.75;
+  font-weight: bold;
+  font-family: "PP Neue Montreal", sans-serif;
+  color: #ffffff;
+  opacity: var(--type-line-opacity);
+  user-select: none;
+  will-change: transform, opacity;
+  position: relative;
+}
+
+.type-line.odd {
+  z-index: 50;
+}
+
+.type-line.even {
+  z-index: 150;
+}
+
+/* Mobile Optimization */
+
+/* For tablets and smaller screens */
+@media screen and (max-width: 992px) {
+  .text-content {
+    font-size: 7rem;
+  }
+
+  .text-row {
+    height: 110px;
+  }
+
+  .type-line {
+    font-size: clamp(5rem, 12vh, 10rem);
+  }
+}
+
+/* For mobile phones */
+@media screen and (max-width: 768px) {
+  .text-content {
+    font-size: 5rem;
+  }
+
+  .text-row {
+    height: 80px;
+    margin: 8px 0;
+  }
+
+  .type-line {
+    font-size: clamp(3.5rem, 8vh, 7rem);
+  }
+
+  .text-item {
+    font-size: 0.7rem;
+  }
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+  .text-content {
+    font-size: 3.5rem;
+  }
+
+  .text-row {
+    height: 60px;
+    margin: 6px 0;
+  }
+
+  .type-line {
+    font-size: clamp(2.5rem, 6vh, 5rem);
+  }
+
+  .text-item {
+    font-size: 0.6rem;
+  }
+}
+
+/* Simple gradient text effect */
+.gradient-text {
+  background: linear-gradient(
+    to right,
+    #ff00ff,
+    /* Bright magenta */ #8a2be2,
+    /* Royal purple */ #0000ff /* Blue */
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important;
+}
+
+/* Important: Add this to handle the split characters */
+.gradient-text .char {
+  background: inherit;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important;
+}
+
+/* Handle inner character spans */
+.gradient-text .char .char-inner {
+  background: inherit;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important;
+}
+
+/* Add this at the end of your CSS file */
+
+/* Link buttons section */
+.link-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 200;
+}
+
+.link-button {
+  font-family: "TheGoodMonolith", monospace;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  transition: all 0.3s ease;
+  padding: 0.7rem 1.2rem;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  /* Add these properties to make buttons noticeable by default */
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+/* Create a different gradient for each button using the existing color variables */
+.link-button:nth-child(1) {
+  background: linear-gradient(to right, var(--text-purple), var(--text-pink));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.link-button:nth-child(2) {
+  background: linear-gradient(to right, var(--text-blue), var(--text-teal));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.link-button:nth-child(3) {
+  background: linear-gradient(to right, var(--text-orange), var(--text-red));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+/* Hover effect */
+.link-button:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.link-button:nth-child(1):after {
+  background: linear-gradient(to right, var(--text-purple), var(--text-pink));
+}
+
+.link-button:nth-child(2):after {
+  background: linear-gradient(to right, var(--text-blue), var(--text-teal));
+}
+
+.link-button:nth-child(3):after {
+  background: linear-gradient(to right, var(--text-orange), var(--text-red));
+}
+
+.link-button:hover:after {
+  width: 100%;
+}
+
+.link-button:nth-child(1):hover {
+  text-shadow: 0 0 8px rgba(255, 105, 180, 0.4);
+}
+
+.link-button:nth-child(2):hover {
+  text-shadow: 0 0 8px rgba(30, 144, 255, 0.4);
+}
+
+.link-button:nth-child(3):hover {
+  text-shadow: 0 0 8px rgba(255, 140, 0, 0.4);
+}
+
+.link-button:hover {
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px); /* Reduced movement */
+}
+
+/* Mobile responsiveness for the buttons */
+@media screen and (max-width: 768px) {
+  .link-buttons {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .link-button {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .link-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
 }
