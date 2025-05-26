@@ -414,11 +414,11 @@ body {
   border-radius: 4px;
   overflow: hidden;
   cursor: pointer;
-  /* Add these properties to make buttons noticeable by default */
-  box-shadow: 0 0 10px rgba(138, 43, 226, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: rgba(0, 0, 0, 0.2);
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  /* Slightly more opaque background by default */
+  box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.4); /* More opaque black background */
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 /* Create a different gradient for each button using the existing color variables */
@@ -492,16 +492,116 @@ body {
   .link-buttons {
     gap: 1rem;
     flex-wrap: wrap;
+    margin-top: 2rem; /* Add some spacing from the content above */
   }
 
   .link-button {
     font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    /* Enhanced visibility for mobile */
+    background-color: rgba(20, 20, 20, 0.8); /* Much more opaque background */
+    border: 1.5px solid rgba(255, 255, 255, 0.3); /* Stronger border */
+    box-shadow: 0 0 12px rgba(138, 43, 226, 0.5); /* Stronger glow */
+    margin-bottom: 0.5rem; /* Space between buttons */
+  }
+
+  /* Add this to make the gradient text stand out better */
+  .link-button:nth-child(1),
+  .link-button:nth-child(2),
+  .link-button:nth-child(3) {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); /* Stronger text glow */
+  }
+  .gradient-text {
+    /* Brighter, more contrasting gradient for mobile */
+    background: linear-gradient(
+      to right,
+      #ff00ff,
+      /* Bright magenta */ #ff80ff,
+      /* Light pink */ #8a2be2,
+      /* Royal purple */ #4b0082,
+      /* Indigo */ #0000ff /* Blue */
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    /* Add animation to make it more noticeable */
+    animation: shine 4s linear infinite;
+    /* Add text shadow for better visibility */
+    text-shadow: 0 0 5px rgba(255, 0, 255, 0.3),
+      0 0 10px rgba(138, 43, 226, 0.3);
+  }
+
+  /* Animation to move the gradient */
+  @keyframes shine {
+    0% {
+      background-position: 0% center;
+    }
+    100% {
+      background-position: 200% center;
+    }
+  }
+
+  /* Ensure the gradient is properly applied to split characters */
+  .gradient-text .char,
+  .gradient-text .char .char-inner {
+    background: inherit;
+    background-size: inherit;
+    background-position: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+    animation: inherit;
+    text-shadow: inherit;
+  }
+
+  .text-item {
+    font-size: 1rem !important; /* Much larger font size */
+    opacity: 1 !important; /* Full opacity */
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5); /* Text shadow for better contrast */
+    transform: scale(1.2); /* Slightly enlarged */
+  }
+
+  /* Reduce the number of visible text items on mobile */
+  .text-item:nth-child(even) {
+    display: none; /* Hide every other item to reduce clutter */
   }
 }
-
 @media screen and (max-width: 480px) {
   .link-buttons {
     flex-direction: column;
     align-items: center;
+    width: 80%; /* Make buttons wider */
+    max-width: 300px; /* But not too wide */
+    margin: 2rem auto; /* Center and add space */
   }
+
+  .link-button {
+    font-size: 16px;
+    font-weight: 800;
+    width: 60%; /* Full width buttons */
+    margin-bottom: 1rem; /* More space between buttons */
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(20, 20, 20, 0.9); /* Nearly opaque background */
+    border: 2px solid rgba(255, 255, 255, 0.4); /* Even stronger border */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
+      0 0 15px rgba(138, 43, 226, 0.7); /* Enhanced multi-layered text shadow */
+  }
+  .link-button:nth-child(1) {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+      0 0 15px rgba(255, 105, 180, 0.7); /* Pink glow */
+  }
+
+  .link-button:nth-child(2) {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+      0 0 15px rgba(30, 144, 255, 0.7); /* Blue glow */
+  }
+
+  .link-button:nth-child(3) {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+      0 0 15px rgba(255, 140, 0, 0.7); /* Orange glow */
+  }
+
+  
 }
