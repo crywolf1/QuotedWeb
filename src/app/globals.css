@@ -492,7 +492,7 @@ body {
   .link-buttons {
     gap: 1rem;
     flex-wrap: wrap;
-    margin-top: 2rem; /* Add some spacing from the content above */
+    margin-top: 15px;
   }
 
   .link-button {
@@ -573,7 +573,6 @@ body {
     align-items: center;
     width: 80%; /* Make buttons wider */
     max-width: 300px; /* But not too wide */
-    margin: 2rem auto; /* Center and add space */
   }
 
   .link-button {
@@ -588,20 +587,7 @@ body {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
       0 0 15px rgba(138, 43, 226, 0.7); /* Enhanced multi-layered text shadow */
   }
-  .link-button:nth-child(1) {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
-      0 0 15px rgba(255, 105, 180, 0.7); /* Pink glow */
-  }
-
-  .link-button:nth-child(2) {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
-      0 0 15px rgba(30, 144, 255, 0.7); /* Blue glow */
-  }
-
-  .link-button:nth-child(3) {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
-      0 0 15px rgba(255, 140, 0, 0.7); /* Orange glow */
-  }
+ 
 
   
 }
