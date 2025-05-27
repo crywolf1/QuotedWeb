@@ -67,20 +67,20 @@ body {
 }
 
 .background-image.default {
-  background-image: url("https://assets.codepen.io/7558/wave-bg-001.webp");
+  background-image: url("/farc.png");
   opacity: 1;
 }
 
 .background-image.focus {
-  background-image: url("https://assets.codepen.io/7558/wave-bg-002.webp");
+  background-image: url("/quoted.png");
 }
 
 .background-image.presence {
-  background-image: url("https://assets.codepen.io/7558/wave-bg-003.webp");
+  background-image: url("/cast.png");
 }
 
 .background-image.feel {
-  background-image: url("https://assets.codepen.io/7558/wave-bg-004.webp");
+  background-image: url("/coin.png");
 }
 
 .text-background {
@@ -587,7 +587,4 @@ body {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.6),
       0 0 15px rgba(138, 43, 226, 0.7); /* Enhanced multi-layered text shadow */
   }
- 
-
-  
 }

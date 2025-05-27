@@ -2,7 +2,10 @@ import "./globals.css";
 
 export const metadata = {
   title: "Quote • Cast • Coin",
-  description: "An interactive meditation on presence and mindfulness",
+  description: "An interactive ritual for capturing thought onchain",
+  icons: {
+    icon: "/asd.png",
+  },
 };
 
 export default function RootLayout({ children }) {
